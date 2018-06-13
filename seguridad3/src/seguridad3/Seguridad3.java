@@ -19,7 +19,7 @@ public class Seguridad3 {
     public static void main(String[] args) {
         // TODO code application logic here
         UsersController uc = new UsersController();
-        uc.newUser("manuelbarral02@gmail.com", "estaseguronoesta1357", "Manuel", "Barral");
+        uc.newUser("prueba@gmail.com", "estaseguronoesta1357", "Prueba", "Lopez");
     }
     
 }
