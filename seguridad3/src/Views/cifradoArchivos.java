@@ -6,6 +6,7 @@
 
 package Views;
 
+import Controllers.CipherController;
 import Models.Users;
 import java.awt.Color;
 import java.awt.Image;
@@ -14,10 +15,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.Cipher;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
+import Logic.Crypto;
 
 /**
  *
@@ -132,24 +136,49 @@ public class cifradoArchivos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCifradoAsimetricoActionPerformed
 
     private void btnCifradoSimetricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCifradoSimetricoActionPerformed
-          JFileChooser filechooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-          int return_value = filechooser.showOpenDialog(null);
-          if(return_value == JFileChooser.APPROVE_OPTION){
-              File selectedFile = filechooser.getSelectedFile();
-              /**cifrar**/
-          }
-        
-        
+        //Elegimos el archivo a encriptar
+        JFileChooser filechooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int return_value = filechooser.showOpenDialog(null);
+        if(return_value == JFileChooser.APPROVE_OPTION){
+            //Solicitamos la clave de encriptación
+            String clave = JOptionPane.showInputDialog("Ingrese la clave de cifrado");
+            //Solicitamos un nuevo nombre para el archivo encriptado
+            String nuevoNombre = JOptionPane.showInputDialog("Ingrese un nombre distinto para el nuevo archivo");
+            File selectedFile = filechooser.getSelectedFile();
+            
+            boolean resultado = CipherController.cifradoSimetrico(selectedFile, clave, nuevoNombre);
+            if(resultado){
+                System.out.println("Se logró cifrar el archivo correctamente");
+            } else{
+                System.out.println("No se logró cifrar el archivo");
+            }
+        }                           
     }//GEN-LAST:event_btnCifradoSimetricoActionPerformed
 
     private void btnDescifradoArchivoSimetricamenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescifradoArchivoSimetricamenteActionPerformed
 
-         JFileChooser filechooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-          int return_value = filechooser.showOpenDialog(null);
-          if(return_value == JFileChooser.APPROVE_OPTION){
-              File selectedFile = filechooser.getSelectedFile();
-              /**cifrar**/
-          }
+        /**
+        * Elegimos el archivo a descifrar
+        */
+        JFileChooser filechooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int return_value = filechooser.showOpenDialog(null);
+        if(return_value == JFileChooser.APPROVE_OPTION){
+            File selectedFile = filechooser.getSelectedFile();
+            //Solicitamos la clave para descifrar (misma que la usada para cifrar)
+            String clave = JOptionPane.showInputDialog("Ingrese la clave para descifrar el archivo");
+            //Solicitamos el nombre a ponerle al archivo de salida
+            String nuevoNombre = JOptionPane.showInputDialog("Ingrese nombre para el archivo descifrado");
+            
+            boolean resultado = CipherController.descifradoSimetrico(selectedFile, clave, nuevoNombre);
+            if(resultado){
+                System.out.println("Se logró descifrar el archivo correctamente");
+                JOptionPane.showMessageDialog(this, "Se logró descifrar el archivo correctamente");
+            } else{
+                System.out.println("No se logró descifrar el archivo");
+                JOptionPane.showMessageDialog(this, "No see logró descifrar el archivo");
+
+            }
+        }
     }//GEN-LAST:event_btnDescifradoArchivoSimetricamenteActionPerformed
 
     private void btnDescifradoArchivoAsimetricamenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescifradoArchivoAsimetricamenteActionPerformed
