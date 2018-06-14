@@ -30,8 +30,18 @@ public class CipherController {
         String fileParent = archivoADescifrar.getParent();
         String newPath = fileParent + "\\" + newName + "." + filePath[1];
         
-        File archivoSalida = new File(newPath);
-        return Crypto.fileProcessor(Cipher.DECRYPT_MODE, password , archivoADescifrar, archivoSalida);
+        File archivoDescifrado = new File(newPath);
+        return Crypto.fileProcessor(Cipher.DECRYPT_MODE, password , archivoADescifrar, archivoDescifrado);
+    }
+    
+    public static boolean cifradoAsimetrico(File archivoACifrar){
+        return false;
+        //IMPLEMENTAR
+    }
+    
+    public static boolean descifradoAsimetrico(File archivoADescifar){
+        return false;
+        //IMPLEMENTAR
     }
     
 }

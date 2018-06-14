@@ -131,7 +131,7 @@ public class cifradoArchivos extends javax.swing.JFrame {
           int return_value = filechooser.showOpenDialog(null);
           if(return_value == JFileChooser.APPROVE_OPTION){
               File selectedFile = filechooser.getSelectedFile();
-              /**cifrar**/
+              /**cifrar asimétricamente**/
           }
     }//GEN-LAST:event_btnCifradoAsimetricoActionPerformed
 
@@ -182,13 +182,12 @@ public class cifradoArchivos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDescifradoArchivoSimetricamenteActionPerformed
 
     private void btnDescifradoArchivoAsimetricamenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescifradoArchivoAsimetricamenteActionPerformed
-
-         JFileChooser filechooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-          int return_value = filechooser.showOpenDialog(null);
-          if(return_value == JFileChooser.APPROVE_OPTION){
-              File selectedFile = filechooser.getSelectedFile();
-              /**cifrar**/
-          }
+        JFileChooser filechooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+         int return_value = filechooser.showOpenDialog(null);
+         if(return_value == JFileChooser.APPROVE_OPTION){
+             File selectedFile = filechooser.getSelectedFile();
+             /**descifrar asimétricamente**/
+         }
     }//GEN-LAST:event_btnDescifradoArchivoAsimetricamenteActionPerformed
 
     /**
