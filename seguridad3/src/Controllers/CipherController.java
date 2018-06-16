@@ -15,22 +15,23 @@ import javax.crypto.Cipher;
  */
 public class CipherController {
     
-    public static boolean cifradoSimetrico(File archivoACifrar, String password, String newName){
-        String[] filePath = archivoACifrar.getAbsolutePath().split("\\.");
-        String fileParent = archivoACifrar.getParent();
-        String newPath = fileParent + "\\" + newName + "." + filePath[1];  
+    public static File getNuevoArchivo(File archivo, String newName){
+        String[] filePath = archivo.getAbsolutePath().split("\\.");
+        String fileParent = archivo.getParent();
+        String newPath = fileParent + getBarra() + newName + "." + filePath[1];  
 
-        File archivoEncriptado = new File(newPath);
+        File archivoNuevo = new File(newPath);
+        return archivoNuevo;
+    }
+    
+    public static boolean cifradoSimetrico(File archivoACifrar, String password, String newName){
+        File archivoEncriptado = getNuevoArchivo(archivoACifrar, newName);
         return Crypto.fileProcessor(Cipher.ENCRYPT_MODE, password, archivoACifrar, archivoEncriptado);
         
     }
     
     public static boolean descifradoSimetrico(File archivoADescifrar, String password, String newName){
-        String[] filePath = archivoADescifrar.getAbsolutePath().split("\\.");
-        String fileParent = archivoADescifrar.getParent();
-        String newPath = fileParent + "\\" + newName + "." + filePath[1];
-        
-        File archivoDescifrado = new File(newPath);
+        File archivoDescifrado = getNuevoArchivo(archivoADescifrar, newName);
         return Crypto.fileProcessor(Cipher.DECRYPT_MODE, password , archivoADescifrar, archivoDescifrado);
     }
     
@@ -42,6 +43,14 @@ public class CipherController {
     public static boolean descifradoAsimetrico(File archivoADescifar){
         return false;
         //IMPLEMENTAR
+    }
+    
+    public static String getBarra(){
+        switch(System.getProperty("os.name")){
+            case "Linux": return "/";
+            case "Windows" : return "\\";
+            default: return "/";
+        }
     }
     
 }

@@ -9,8 +9,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.BadPaddingException;
@@ -23,7 +25,7 @@ public class Crypto {
 
     public static boolean fileProcessor(int cipherMode,String key,File inputFile,File outputFile){
         try {
-            Key secretKey = new SecretKeySpec(key.getBytes(), "AES");
+            Key secretKey = crearLlave(key);
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(cipherMode, secretKey);
 
@@ -39,13 +41,22 @@ public class Crypto {
             inputStream.close();
             outputStream.close();
 
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException 
-                 | InvalidKeyException | BadPaddingException
-                 | IllegalBlockSizeException | IOException e) {
-
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | IOException e) {
+            return false;
+        } catch(InvalidKeyException e){
+            System.out.println("Excepción: clave inválida");
             return false;
         }
         return true;
+    }
+    
+    public static SecretKeySpec crearLlave(String frase) throws UnsupportedEncodingException, NoSuchAlgorithmException
+    {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+	digest.update(frase.getBytes("UTF-8"));
+        SecretKeySpec key = new SecretKeySpec(digest.digest(), 0, 16, "AES");
+        return key;
+    
     }
 
     /**
