@@ -10,29 +10,22 @@ import Controllers.CipherController;
 import Models.Users;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.crypto.Cipher;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
-import Logic.Crypto;
 
 /**
  *
  * @author bruno
  */
-public class cifradoArchivos extends javax.swing.JFrame {
+public class PantallaPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form CifradoSimetrico
      */
-    public cifradoArchivos(Users usuario){
+    public PantallaPrincipal(Users usuario){
         initComponents();
         actualizar();
        
@@ -58,36 +51,42 @@ public class cifradoArchivos extends javax.swing.JFrame {
         btnCifradoAsimetrico = new javax.swing.JButton();
         btnDescifradoArchivoSimetricamente = new javax.swing.JButton();
         panelFoto = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnCifradoSimetrico.setText("Cifrado archivo simetricamente");
+        btnCifradoSimetrico.setText("Cifrado simetrico");
         btnCifradoSimetrico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCifradoSimetricoActionPerformed(evt);
             }
         });
 
-        btnDescifradoArchivoAsimetricamente.setText("Descifrado archivo asimetricamente");
+        btnDescifradoArchivoAsimetricamente.setText("Validar firma");
         btnDescifradoArchivoAsimetricamente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDescifradoArchivoAsimetricamenteActionPerformed(evt);
+                btnValidarFirmaActionPerformed(evt);
             }
         });
 
-        btnCifradoAsimetrico.setText("Cifrado archivo asimetricamente");
+        btnCifradoAsimetrico.setText("Firmar archivo");
         btnCifradoAsimetrico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCifradoAsimetricoActionPerformed(evt);
+                btnFirmarActionPerformed(evt);
             }
         });
 
-        btnDescifradoArchivoSimetricamente.setText("Descifrado archivo simetricamente");
+        btnDescifradoArchivoSimetricamente.setText("Descifrado simetrico");
         btnDescifradoArchivoSimetricamente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDescifradoArchivoSimetricamenteActionPerformed(evt);
+                btnDescifradoSimetricoActionPerformed(evt);
             }
         });
+
+        jButton1.setText("Registrar usuario");
+
+        jButton2.setText("Modificar usuarios");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -96,44 +95,54 @@ public class cifradoArchivos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnDescifradoArchivoAsimetricamente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDescifradoArchivoSimetricamente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(75, 75, 75)
+                    .addComponent(btnCifradoSimetrico, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                    .addComponent(btnCifradoAsimetrico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(244, 244, 244)
                 .addComponent(panelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnCifradoSimetrico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCifradoAsimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(108, 108, 108)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDescifradoArchivoAsimetricamente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnDescifradoArchivoSimetricamente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(panelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDescifradoArchivoSimetricamente, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCifradoSimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDescifradoArchivoAsimetricamente, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCifradoAsimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(btnCifradoSimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCifradoAsimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addComponent(btnDescifradoArchivoSimetricamente, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDescifradoArchivoAsimetricamente, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCifradoAsimetricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCifradoAsimetricoActionPerformed
+    private void btnFirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirmarActionPerformed
           JFileChooser filechooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
           int return_value = filechooser.showOpenDialog(null);
           if(return_value == JFileChooser.APPROVE_OPTION){
               File selectedFile = filechooser.getSelectedFile();
               /**cifrar asimétricamente**/
           }
-    }//GEN-LAST:event_btnCifradoAsimetricoActionPerformed
+    }//GEN-LAST:event_btnFirmarActionPerformed
 
     private void btnCifradoSimetricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCifradoSimetricoActionPerformed
         //Elegimos el archivo a encriptar
@@ -149,13 +158,17 @@ public class cifradoArchivos extends javax.swing.JFrame {
             boolean resultado = CipherController.cifradoSimetrico(selectedFile, clave, nuevoNombre);
             if(resultado){
                 System.out.println("Se logró cifrar el archivo correctamente");
+                JOptionPane.showMessageDialog(this, "Se logró cifrar el archivo correctamente");
+
             } else{
                 System.out.println("No se logró cifrar el archivo");
+                JOptionPane.showMessageDialog(this, "No se logró cifrar el archivo");
+
             }
         }                           
     }//GEN-LAST:event_btnCifradoSimetricoActionPerformed
 
-    private void btnDescifradoArchivoSimetricamenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescifradoArchivoSimetricamenteActionPerformed
+    private void btnDescifradoSimetricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescifradoSimetricoActionPerformed
 
         /**
         * Elegimos el archivo a descifrar
@@ -175,20 +188,20 @@ public class cifradoArchivos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Se logró descifrar el archivo correctamente");
             } else{
                 System.out.println("No se logró descifrar el archivo");
-                JOptionPane.showMessageDialog(this, "No see logró descifrar el archivo");
+                JOptionPane.showMessageDialog(this, "No se logró descifrar el archivo");
 
             }
         }
-    }//GEN-LAST:event_btnDescifradoArchivoSimetricamenteActionPerformed
+    }//GEN-LAST:event_btnDescifradoSimetricoActionPerformed
 
-    private void btnDescifradoArchivoAsimetricamenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescifradoArchivoAsimetricamenteActionPerformed
+    private void btnValidarFirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarFirmaActionPerformed
         JFileChooser filechooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
          int return_value = filechooser.showOpenDialog(null);
          if(return_value == JFileChooser.APPROVE_OPTION){
              File selectedFile = filechooser.getSelectedFile();
              /**descifrar asimétricamente**/
          }
-    }//GEN-LAST:event_btnDescifradoArchivoAsimetricamenteActionPerformed
+    }//GEN-LAST:event_btnValidarFirmaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,14 +220,26 @@ public class cifradoArchivos extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(cifradoArchivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(cifradoArchivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(cifradoArchivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(cifradoArchivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -224,7 +249,7 @@ public class cifradoArchivos extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 
-                      new cifradoArchivos(null).setVisible(true);
+                      new PantallaPrincipal(null).setVisible(true);
                               
             }
         });
@@ -235,6 +260,8 @@ public class cifradoArchivos extends javax.swing.JFrame {
     private javax.swing.JButton btnCifradoSimetrico;
     private javax.swing.JButton btnDescifradoArchivoAsimetricamente;
     private javax.swing.JButton btnDescifradoArchivoSimetricamente;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel panelFoto;
     // End of variables declaration//GEN-END:variables

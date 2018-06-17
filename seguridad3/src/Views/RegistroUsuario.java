@@ -135,7 +135,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
         String nombre = this.txtNombre.getText();
         String apellido = this.txtApellido.getText();
         String contraseña = this.txtContraseña.getText();
-        String contraseñav2 = this.txtContraseña.getText();
+        String contraseñav2 = this.txtRepetirContraseña.getText();
         
         if(contraseña.equals(contraseñav2)){
             /**
@@ -145,18 +145,18 @@ public class RegistroUsuario extends javax.swing.JFrame {
             Users usuario = uc.newUser(correo, contraseña, nombre, apellido);
             if(usuario!=null){
                 JOptionPane.showMessageDialog(null, "Se registro perfectamente!");
-                cifradoArchivos sistema = new cifradoArchivos(usuario);
+                PantallaPrincipal sistema = new PantallaPrincipal(usuario);
                 sistema.setVisible(true);
                 this.setVisible(false);
             }
             else{
-                JOptionPane.showMessageDialog(null,"No fue posible crear usuario","No fue posible crear el nuevo usuario",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,"No fue posible crear usuario, pruebe intentando una mejor contraseña");
 
             }
             
         }
         else{
-             JOptionPane.showMessageDialog(null,"Contraseñas no concuerdan","Contraseñas no concuerdan, intente de nuevo",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Las contraseñas no concuerdan");
 
         }
         
