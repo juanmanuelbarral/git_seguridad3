@@ -7,6 +7,9 @@
 package Views;
 
 import Controllers.CipherController;
+import Controllers.PantallaPrincipalController;
+import Controllers.UsersController;
+import Controllers.exceptions.ContrasenaIncorrectaException;
 import Models.Users;
 import java.awt.Color;
 import java.awt.Image;
@@ -21,11 +24,15 @@ import javax.swing.filechooser.FileSystemView;
  * @author bruno
  */
 public class PantallaPrincipal extends javax.swing.JFrame {
+    
+    private final Users usuario;
 
     /**
      * Creates new form CifradoSimetrico
+     * @param usuario
      */
     public PantallaPrincipal(Users usuario){
+        this.usuario = usuario;
         initComponents();
         actualizar();
        
@@ -35,6 +42,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         ImageIcon imagenLabel = new ImageIcon(imagen.getImage().getScaledInstance(this.panelFoto.getWidth(), this.panelFoto.getHeight(), Image.SCALE_DEFAULT));
         this.panelFoto.setIcon(imagenLabel);
         this.getContentPane().setBackground(new Color(37, 42, 53));
+        this.btnCifradoSimetrico.setEnabled(PantallaPrincipalController.habilitarCifradoSimetrico(usuario) && usuario.getPrimeraContra());
+        this.btnDescifradoSimetrico.setEnabled(PantallaPrincipalController.habilitarCifradoSimetrico(usuario) && usuario.getPrimeraContra());
+        this.btnFirmar.setEnabled(PantallaPrincipalController.habilitarFirma(usuario) && usuario.getPrimeraContra());
+        this.btnValidarFirma.setEnabled(PantallaPrincipalController.habilitarFirma(usuario) && usuario.getPrimeraContra());
+        this.btnRegistrarUsuario.setEnabled(PantallaPrincipalController.habilitarRegistrar(usuario) && usuario.getPrimeraContra());
+        this.btnModificarContra.setEnabled(true);
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,12 +61,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         jFileChooser1 = new javax.swing.JFileChooser();
         btnCifradoSimetrico = new javax.swing.JButton();
-        btnDescifradoArchivoAsimetricamente = new javax.swing.JButton();
-        btnCifradoAsimetrico = new javax.swing.JButton();
-        btnDescifradoArchivoSimetricamente = new javax.swing.JButton();
+        btnValidarFirma = new javax.swing.JButton();
+        btnFirmar = new javax.swing.JButton();
+        btnDescifradoSimetrico = new javax.swing.JButton();
         panelFoto = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnRegistrarUsuario = new javax.swing.JButton();
+        btnModificarContra = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,51 +77,60 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnDescifradoArchivoAsimetricamente.setText("Validar firma");
-        btnDescifradoArchivoAsimetricamente.addActionListener(new java.awt.event.ActionListener() {
+        btnValidarFirma.setText("Validar firma");
+        btnValidarFirma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnValidarFirmaActionPerformed(evt);
             }
         });
 
-        btnCifradoAsimetrico.setText("Firmar archivo");
-        btnCifradoAsimetrico.addActionListener(new java.awt.event.ActionListener() {
+        btnFirmar.setText("Firmar archivo");
+        btnFirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFirmarActionPerformed(evt);
             }
         });
 
-        btnDescifradoArchivoSimetricamente.setText("Descifrado simetrico");
-        btnDescifradoArchivoSimetricamente.addActionListener(new java.awt.event.ActionListener() {
+        btnDescifradoSimetrico.setText("Descifrado simetrico");
+        btnDescifradoSimetrico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDescifradoSimetricoActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Registrar usuario");
+        btnRegistrarUsuario.setText("Registrar usuario");
+        btnRegistrarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarUsuarioActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Modificar usuarios");
+        btnModificarContra.setText("Modificar contraseña");
+        btnModificarContra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarContraActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCifradoSimetrico, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                    .addComponent(btnCifradoAsimetrico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnFirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(244, 244, 244)
                 .addComponent(panelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(108, 108, 108)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDescifradoSimetrico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnDescifradoArchivoAsimetricamente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
+                        .addComponent(btnValidarFirma, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnDescifradoArchivoSimetricamente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnModificarContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
@@ -118,18 +141,20 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                         .addGap(61, 61, 61)
                         .addComponent(btnCifradoSimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCifradoAsimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnFirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
-                        .addComponent(btnDescifradoArchivoSimetricamente, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnDescifradoSimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDescifradoArchivoAsimetricamente, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                        .addComponent(btnValidarFirma, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnModificarContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -203,6 +228,34 @@ public class PantallaPrincipal extends javax.swing.JFrame {
          }
     }//GEN-LAST:event_btnValidarFirmaActionPerformed
 
+    private void btnModificarContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarContraActionPerformed
+        String claveActual = JOptionPane.showInputDialog("Ingrese la contraseña actual");
+        String claveNueva = JOptionPane.showInputDialog("Ingrese una nueva contraseña");
+        String claveNueva2 = JOptionPane.showInputDialog("Repita la nueva contraseña");
+        
+        if(claveNueva.equals(claveNueva2)){
+            UsersController us = new UsersController();
+            try{
+                boolean resultado = us.modificarContrasena(usuario, claveNueva, claveActual);
+                if(resultado){
+                    this.actualizar();
+                    JOptionPane.showMessageDialog(this, "Se modificó la contraseña con éxito");
+                }
+            }
+            catch(ContrasenaIncorrectaException e){
+                JOptionPane.showMessageDialog(this, "La contraseña actual ingresada no es correcta");
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "La nueva contraseña no concuerda con la repetición");
+        }
+    }//GEN-LAST:event_btnModificarContraActionPerformed
+
+    private void btnRegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarUsuarioActionPerformed
+        RegistroUsuario regUsu = new RegistroUsuario();
+        regUsu.setVisible(true);
+    }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -256,12 +309,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCifradoAsimetrico;
     private javax.swing.JButton btnCifradoSimetrico;
-    private javax.swing.JButton btnDescifradoArchivoAsimetricamente;
-    private javax.swing.JButton btnDescifradoArchivoSimetricamente;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnDescifradoSimetrico;
+    private javax.swing.JButton btnFirmar;
+    private javax.swing.JButton btnModificarContra;
+    private javax.swing.JButton btnRegistrarUsuario;
+    private javax.swing.JButton btnValidarFirma;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel panelFoto;
     // End of variables declaration//GEN-END:variables

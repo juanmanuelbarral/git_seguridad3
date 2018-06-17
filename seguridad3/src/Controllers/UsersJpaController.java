@@ -25,7 +25,7 @@ import javax.persistence.criteria.Root;
 public class UsersJpaController implements Serializable {
 
     public UsersJpaController(){}
-
+    
     public UsersJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -46,7 +46,7 @@ public class UsersJpaController implements Serializable {
             em.persist(users);
             em.getTransaction().commit();
         } catch (Exception ex) {
-            if (findUsers(users.getEmail()) != null) {
+            if (findUsers(users.getCi()) != null) {
                 throw new PreexistingEntityException("Users " + users + " already exists.", ex);
             }
             throw ex;
@@ -67,7 +67,7 @@ public class UsersJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = users.getEmail();
+                String id = users.getCi();
                 if (findUsers(id) == null) {
                     throw new NonexistentEntityException("The users with id " + id + " no longer exists.");
                 }
@@ -88,7 +88,7 @@ public class UsersJpaController implements Serializable {
             Users users;
             try {
                 users = em.getReference(Users.class, id);
-                users.getEmail();
+                users.getCi();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The users with id " + id + " no longer exists.", enfe);
             }

@@ -24,17 +24,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
-    , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")
+    , @NamedQuery(name = "Users.findByCi", query = "SELECT u FROM Users u WHERE u.ci = :ci")
     , @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")
     , @NamedQuery(name = "Users.findByNombre", query = "SELECT u FROM Users u WHERE u.nombre = :nombre")
-    , @NamedQuery(name = "Users.findByApellido", query = "SELECT u FROM Users u WHERE u.apellido = :apellido")})
+    , @NamedQuery(name = "Users.findByApellido", query = "SELECT u FROM Users u WHERE u.apellido = :apellido")
+    , @NamedQuery(name = "Users.findByRol", query = "SELECT u FROM Users u WHERE u.rol = :rol")
+    , @NamedQuery(name = "Users.findByPrimeraContra", query = "SELECT u FROM Users u WHERE u.primeraContra = :primeraContra")})
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "email")
-    private String email;
+    @Column(name = "ci")
+    private String ci;
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
@@ -44,27 +46,35 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(name = "apellido")
     private String apellido;
+    @Basic(optional = false)
+    @Column(name = "rol")
+    private int rol;
+    @Basic(optional = false)
+    @Column(name = "primeraContra")
+    private boolean primeraContra;
 
     public Users() {
     }
 
-    public Users(String email) {
-        this.email = email;
+    public Users(String ci) {
+        this.ci = ci;
     }
 
-    public Users(String email, String password, String nombre, String apellido) {
-        this.email = email;
+    public Users(String ci, String password, String nombre, String apellido, int rol, boolean primeraContra) {
+        this.ci = ci;
         this.password = password;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.rol = rol;
+        this.primeraContra = primeraContra;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCi() {
+        return ci;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCi(String ci) {
+        this.ci = ci;
     }
 
     public String getPassword() {
@@ -91,10 +101,26 @@ public class Users implements Serializable {
         this.apellido = apellido;
     }
 
+    public int getRol() {
+        return rol;
+    }
+
+    public void setRol(int rol) {
+        this.rol = rol;
+    }
+
+    public boolean getPrimeraContra() {
+        return primeraContra;
+    }
+
+    public void setPrimeraContra(boolean primeraContra) {
+        this.primeraContra = primeraContra;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (email != null ? email.hashCode() : 0);
+        hash += (ci != null ? ci.hashCode() : 0);
         return hash;
     }
 
@@ -105,7 +131,7 @@ public class Users implements Serializable {
             return false;
         }
         Users other = (Users) object;
-        if ((this.email == null && other.email != null) || (this.email != null && !this.email.equals(other.email))) {
+        if ((this.ci == null && other.ci != null) || (this.ci != null && !this.ci.equals(other.ci))) {
             return false;
         }
         return true;
@@ -113,7 +139,13 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "baseDatos.Users[ email=" + email + " ]";
+        return "Models.Users[ ci=" + ci + " ]";
+    }
+
+    public void seCambioContra() {
+        if(this.primeraContra == false){
+            this.primeraContra = true;
+        }
     }
     
 }

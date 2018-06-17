@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Logic;
+import Common.Roles;
 import Common.Utils;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -98,6 +99,16 @@ public class UsersLogic {
         }
         System.out.println("Su clave es bastante buena");
         return true;
+    }
+    
+    public static int getRol(String rolSeleccionado){
+        switch(rolSeleccionado){
+            case "Inactivo": return Roles.INACTIVO;
+            case "Administrador": return Roles.ADMINISTRADOR;
+            case "Usuario tipo1": return Roles.USUARIO_TIPO1;
+            case "Usuario tipo2": return Roles.USUARIO_TIPO2;
+            default: return Roles.INACTIVO;
+        }
     }
     
     

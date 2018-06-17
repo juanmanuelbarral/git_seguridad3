@@ -6,6 +6,7 @@
 package Controllers;
 
 import Common.Utils;
+import Controllers.exceptions.ContrasenaIncorrectaException;
 import Logic.UsersLogic;
 import Models.Users;
 
@@ -21,12 +22,13 @@ public class UsersController {
      */
     public UsersController(){}
     
-    public Users newUser(String email, String password, String nombre, String apellido){
+    public Users newUser(String ci, String password, String nombre, String apellido, int rol){
         try{
             if(UsersLogic.checkPasswordWithPwned(password)){
                 String passSHA1 = Utils.applySHA1(password);
+                Integer.valueOf(ci);
                 
-                Users usuario = new Users(email, passSHA1,nombre,apellido);
+                Users usuario = new Users(ci, passSHA1, nombre, apellido, rol, false);
                 
                 UsersJpaController ujc = new UsersJpaController();
                 try
@@ -40,6 +42,9 @@ public class UsersController {
                 
             }
             return null;
+        }
+        catch(NumberFormatException nf){
+            throw nf;
         }
         catch(Exception e){
             return null;
@@ -61,6 +66,32 @@ public class UsersController {
             }
         }
         return null;
+    }
+    
+    public boolean modificarContrasena(Users usuario, String nuevaContra, String contraActual) throws ContrasenaIncorrectaException{
+        try{
+            String passSHA1 = Utils.applySHA1(contraActual);
+            if(usuario.getPassword().equals(passSHA1)){
+                if(UsersLogic.checkPasswordWithPwned(nuevaContra)){
+                    String passNuevaSHA1 = Utils.applySHA1(nuevaContra);
+                    usuario.setPassword(passNuevaSHA1);
+                    usuario.seCambioContra();
+                    UsersJpaController ujc = new UsersJpaController();
+                    ujc.edit(usuario);
+                    return true;
+                }
+            }
+            else{
+                throw new ContrasenaIncorrectaException();
+            }
+        }
+        catch(ContrasenaIncorrectaException cIncorrecta){
+            throw cIncorrecta;
+        }
+        catch (Exception e){
+            return false;
+        }
+        return false;
     }
     
 }

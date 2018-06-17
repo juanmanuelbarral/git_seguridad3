@@ -98,18 +98,19 @@ public class Login extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
  
-        String email = this.txtUsuario.getText();
+        String ci = this.txtUsuario.getText();
         String contraseña = this.txtContraseña.getText();
         
         /**
          * Corroborar en base de datos
          */
-        Users usuario= uc.login(email, contraseña) ;
+        Users usuario= uc.login(ci, contraseña) ;
         /**corroborar si esta**/
         if(usuario!=null){
             
             PantallaPrincipal sistema = new PantallaPrincipal(usuario);
             sistema.setVisible(true);
+            this.setVisible(false);
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 

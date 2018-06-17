@@ -27,25 +27,23 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnCifradoSimetrico" pref="184" max="32767" attributes="0"/>
-                  <Component id="btnCifradoAsimetrico" max="32767" attributes="0"/>
-                  <Component id="jButton1" max="32767" attributes="0"/>
+                  <Component id="btnFirmar" max="32767" attributes="0"/>
+                  <Component id="btnRegistrarUsuario" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="244" max="-2" attributes="0"/>
               <Component id="panelFoto" min="-2" pref="271" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="btnDescifradoSimetrico" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnDescifradoArchivoAsimetricamente" max="32767" attributes="0"/>
-                          <Component id="jButton2" pref="197" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="btnValidarFirma" min="-2" pref="197" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="btnDescifradoArchivoSimetricamente" max="32767" attributes="0"/>
+                  <Component id="btnModificarContra" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
           </Group>
@@ -59,21 +57,24 @@
                       <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                       <Component id="btnCifradoSimetrico" min="-2" pref="51" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnCifradoAsimetrico" min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="btnFirmar" min="-2" pref="50" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" pref="47" max="-2" attributes="0"/>
+                      <Component id="btnRegistrarUsuario" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="panelFoto" min="-2" pref="244" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
-                      <Component id="btnDescifradoArchivoSimetricamente" min="-2" pref="51" max="-2" attributes="0"/>
+                      <Component id="btnDescifradoSimetrico" min="-2" pref="51" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnDescifradoArchivoAsimetricamente" min="-2" pref="50" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="btnValidarFirma" min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnModificarContra" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="panelFoto" alignment="0" min="-2" pref="244" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="26" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -87,7 +88,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCifradoSimetricoActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnDescifradoArchivoAsimetricamente">
+    <Component class="javax.swing.JButton" name="btnValidarFirma">
       <Properties>
         <Property name="text" type="java.lang.String" value="Validar firma"/>
       </Properties>
@@ -95,7 +96,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnValidarFirmaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnCifradoAsimetrico">
+    <Component class="javax.swing.JButton" name="btnFirmar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Firmar archivo"/>
       </Properties>
@@ -103,7 +104,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFirmarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnDescifradoArchivoSimetricamente">
+    <Component class="javax.swing.JButton" name="btnDescifradoSimetrico">
       <Properties>
         <Property name="text" type="java.lang.String" value="Descifrado simetrico"/>
       </Properties>
@@ -113,15 +114,21 @@
     </Component>
     <Component class="javax.swing.JLabel" name="panelFoto">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnRegistrarUsuario">
       <Properties>
         <Property name="text" type="java.lang.String" value="Registrar usuario"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarUsuarioActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="btnModificarContra">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Modificar usuarios"/>
+        <Property name="text" type="java.lang.String" value="Modificar contrase&#xf1;a"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarContraActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
