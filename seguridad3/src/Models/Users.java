@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author manuelbarral
+ * @author nico
  */
 @Entity
 @Table(name = "Users")
@@ -29,7 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Users.findByNombre", query = "SELECT u FROM Users u WHERE u.nombre = :nombre")
     , @NamedQuery(name = "Users.findByApellido", query = "SELECT u FROM Users u WHERE u.apellido = :apellido")
     , @NamedQuery(name = "Users.findByRol", query = "SELECT u FROM Users u WHERE u.rol = :rol")
-    , @NamedQuery(name = "Users.findByPrimeraContra", query = "SELECT u FROM Users u WHERE u.primeraContra = :primeraContra")})
+    , @NamedQuery(name = "Users.findByPrimeraContra", query = "SELECT u FROM Users u WHERE u.primeraContra = :primeraContra")
+    , @NamedQuery(name = "Users.findByPublicKey", query = "SELECT u FROM Users u WHERE u.publicKey = :publicKey")
+    , @NamedQuery(name = "Users.findByTieneClaves", query = "SELECT u FROM Users u WHERE u.tieneClaves = :tieneClaves")})
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,6 +54,11 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(name = "primeraContra")
     private boolean primeraContra;
+    @Column(name = "PublicKey")
+    private String publicKey;
+    @Basic(optional = false)
+    @Column(name = "tieneClaves")
+    private boolean tieneClaves;
 
     public Users() {
     }
@@ -60,13 +67,14 @@ public class Users implements Serializable {
         this.ci = ci;
     }
 
-    public Users(String ci, String password, String nombre, String apellido, int rol, boolean primeraContra) {
+    public Users(String ci, String password, String nombre, String apellido, int rol, boolean primeraContra, boolean tieneClaves) {
         this.ci = ci;
         this.password = password;
         this.nombre = nombre;
         this.apellido = apellido;
         this.rol = rol;
         this.primeraContra = primeraContra;
+        this.tieneClaves = tieneClaves;
     }
 
     public String getCi() {
@@ -117,6 +125,22 @@ public class Users implements Serializable {
         this.primeraContra = primeraContra;
     }
 
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public boolean getTieneClaves() {
+        return tieneClaves;
+    }
+
+    public void setTieneClaves(boolean tieneClaves) {
+        this.tieneClaves = tieneClaves;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -141,10 +165,10 @@ public class Users implements Serializable {
     public String toString() {
         return "Models.Users[ ci=" + ci + " ]";
     }
-
-    public void seCambioContra() {
-        if(this.primeraContra == false){
-            this.primeraContra = true;
+    
+    public void seCambioContra(){
+        if(this.getPrimeraContra()==false){
+            this.setPrimeraContra(true);
         }
     }
     

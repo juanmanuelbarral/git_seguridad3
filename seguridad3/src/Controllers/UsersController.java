@@ -28,7 +28,7 @@ public class UsersController {
                 String passSHA1 = Utils.applySHA256(password);
                 Integer.valueOf(ci);
                 
-                Users usuario = new Users(ci, passSHA1, nombre, apellido, rol, false);
+                Users usuario = new Users(ci, passSHA1, nombre, apellido, rol, false, false);
                 
                 UsersJpaController ujc = new UsersJpaController();
                 try
@@ -92,6 +92,20 @@ public class UsersController {
             return false;
         }
         return false;
+    }
+    
+    public boolean generarClaves(Users usuario, String path){
+        try{
+            usuario.setTieneClaves(true);
+            boolean res = CipherController.generarLlaves(usuario,path);
+            UsersJpaController ujc = new UsersJpaController();
+            ujc.edit(usuario);
+            return res;
+        }
+        catch(Exception e){
+            return false;
+        }
+        
     }
     
 }

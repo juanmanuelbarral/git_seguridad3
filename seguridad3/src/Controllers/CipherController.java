@@ -8,19 +8,12 @@ package Controllers;
 import Common.GenerateKeys;
 import Common.Utils;
 import Logic.Crypto;
+import Models.Users;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.security.GeneralSecurityException;
-import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 
 /**
  *
@@ -61,22 +54,17 @@ public class CipherController {
     }
     
     public static boolean firmado(File archivoAFirmar, String newName, File Key){
-        ///Ni idea que hacer (?)
         File archivoFirmado = getNuevoArchivo(archivoAFirmar,newName);
         return Crypto.firmar(archivoAFirmar, archivoFirmado, Key);
     }
     
-    public static boolean generarLlaves(String path){
+    public static boolean generarLlaves(Users usuario,String path){
         GenerateKeys gk;
         try {
                 gk = new GenerateKeys(1024);
                 gk.createKeys();
-                Utils.writeToFile(path + CipherController.getBarra() + "publicKey", gk.getPublicKey().getEncoded());
                 Utils.writeToFile(path + CipherController.getBarra() + "privateKey", gk.getPrivateKey().getEncoded());
-                
-                //
-                //Aca se actualizaria en la BD, por ahora lo dejo local
-                //
+                usuario.setPublicKey(gk.getPublicKey().getEncoded().toString());
                 
                 return true;
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {

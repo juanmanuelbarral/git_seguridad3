@@ -80,9 +80,9 @@ public class Crypto {
                 System.arraycopy(ciphertextWithIVBytes, 0, decipherIV, 0, 16);
                 System.arraycopy(ciphertextWithIVBytes, 16, textToDecipher, 0, textToDecipher.length);
                 cipher.init(cipherMode, secretKey, new IvParameterSpec(decipherIV));
-                byte[] cifrado = cipher.doFinal(textToDecipher);
+                byte[] decifrado = cipher.doFinal(textToDecipher);
                 FileOutputStream outputStream = new FileOutputStream(outputFile,true);
-                outputStream.write(cifrado);
+                outputStream.write(decifrado);
                 outputStream.close();
             }
             
@@ -150,16 +150,6 @@ public class Crypto {
             FileInputStream fis = new FileInputStream(archivoAFirmar);
             fis.read(buf);
             dsa.update(buf);
-            /*BufferedInputStream bufin = new BufferedInputStream(fis);
-            byte[] buffer = new byte[1024];
-            int len;
-            while (bufin.available() != 0) {
-                len = bufin.read(buffer);
-                dsa.update(buffer, 0, len);
-            }
- 
-            bufin.close();
-            */
             fis.close();
             
             byte[] firma = dsa.sign();
@@ -181,6 +171,10 @@ public class Crypto {
         } catch (Exception ex) {
             return false;
         }
+    }
+    
+    public static boolean validar(File archivoAFirmar ){
+        return true;
     }
     
 

@@ -38,5 +38,14 @@ public class PantallaPrincipalController {
         return false;
     }
     
+    public static boolean habilitarGenerarLlaves(Users usuario){
+        int rol = usuario.getRol();
+        boolean primeraContra = usuario.getPrimeraContra();
+        if(primeraContra && (rol == Roles.ADMINISTRADOR || rol == Roles.USUARIO_TIPO1)){
+            return true;
+        }
+        return false;
+    }
+    
     
 }

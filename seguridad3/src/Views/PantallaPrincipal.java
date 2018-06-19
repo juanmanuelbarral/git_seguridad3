@@ -48,6 +48,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         this.btnValidarFirma.setEnabled(PantallaPrincipalController.habilitarFirma(usuario) && usuario.getPrimeraContra());
         this.btnRegistrarUsuario.setEnabled(PantallaPrincipalController.habilitarRegistrar(usuario) && usuario.getPrimeraContra());
         this.btnModificarContra.setEnabled(true);
+        this.btnGenerarClaves.setEnabled(PantallaPrincipalController.habilitarGenerarLlaves(usuario));
 
     }
     /**
@@ -67,6 +68,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         panelFoto = new javax.swing.JLabel();
         btnRegistrarUsuario = new javax.swing.JButton();
         btnModificarContra = new javax.swing.JButton();
+        btnGenerarClaves = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,49 +114,61 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnGenerarClaves.setText("Generar Claves");
+        btnGenerarClaves.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarClavesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnCifradoSimetrico, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                    .addComponent(btnFirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(244, 244, 244)
-                .addComponent(panelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(108, 108, 108)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDescifradoSimetrico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnValidarFirma, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnModificarContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(25, 25, 25))
+                        .addComponent(btnGenerarClaves, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnCifradoSimetrico, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                            .addComponent(btnFirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(281, 281, 281)
+                        .addComponent(panelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnDescifradoSimetrico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnValidarFirma, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(btnModificarContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(btnCifradoSimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnFirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
                         .addComponent(btnDescifradoSimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnValidarFirma, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnModificarContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(btnModificarContra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(btnCifradoSimetrico, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnFirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGenerarClaves, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
@@ -252,33 +266,15 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         if(claveNueva.equals(claveNueva2)){
             UsersController us = new UsersController();
             try{
-                boolean primerCambio = !usuario.getPrimeraContra();
                 boolean resultado = us.modificarContrasena(usuario, claveNueva, claveActual);
-                //
-                //
-                
-                //REVER ESTA PARTE
-                
-                //
-                //
-                if(primerCambio){
-                    if(CipherController.generarLlaves("src/Keys/"+usuario.getCi()) && resultado){
-                        this.actualizar();
-                        JOptionPane.showMessageDialog(this, "Se modificó la contraseña y se generaron las llaves con éxito ");
-                        
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(this, "Error al generar llaves ");
-                     
-                    }
+                if(resultado){
+                    this.actualizar();
+                    JOptionPane.showMessageDialog(this, "Se modificó la contraseña con éxito ");
                 }
                 else{
-                    if(resultado){
-                        JOptionPane.showMessageDialog(this, "Se modificó la contraseña con éxito ");
-                    }
+                    JOptionPane.showMessageDialog(this, "No se ha podido modificar la contraseña con éxito ");
+                    
                 }
-                
-                
             }
             catch(ContrasenaIncorrectaException e){
                 JOptionPane.showMessageDialog(this, "La contraseña actual ingresada no es correcta");
@@ -293,6 +289,22 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         RegistroUsuario regUsu = new RegistroUsuario();
         regUsu.setVisible(true);
     }//GEN-LAST:event_btnRegistrarUsuarioActionPerformed
+
+    private void btnGenerarClavesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarClavesActionPerformed
+        UsersController uc = new UsersController();
+        JFileChooser chooser = new JFileChooser(); 
+        //chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Seleccione un directorio donde guardar su clave privada");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+            String path = chooser.getCurrentDirectory().getPath(); 
+            String path1 = chooser.getSelectedFile().getAbsolutePath();
+            uc.generarClaves(usuario, path1);
+        }
+        
+    }//GEN-LAST:event_btnGenerarClavesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -350,6 +362,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnCifradoSimetrico;
     private javax.swing.JButton btnDescifradoSimetrico;
     private javax.swing.JButton btnFirmar;
+    private javax.swing.JButton btnGenerarClaves;
     private javax.swing.JButton btnModificarContra;
     private javax.swing.JButton btnRegistrarUsuario;
     private javax.swing.JButton btnValidarFirma;
