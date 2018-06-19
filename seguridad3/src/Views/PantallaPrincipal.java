@@ -248,11 +248,19 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         String claveNueva = JOptionPane.showInputDialog("Ingrese una nueva contraseña");
         String claveNueva2 = JOptionPane.showInputDialog("Repita la nueva contraseña");
         
+        
         if(claveNueva.equals(claveNueva2)){
             UsersController us = new UsersController();
             try{
                 boolean primerCambio = !usuario.getPrimeraContra();
                 boolean resultado = us.modificarContrasena(usuario, claveNueva, claveActual);
+                //
+                //
+                
+                //REVER ESTA PARTE
+                
+                //
+                //
                 if(primerCambio){
                     if(CipherController.generarLlaves("src/Keys/"+usuario.getCi()) && resultado){
                         this.actualizar();
