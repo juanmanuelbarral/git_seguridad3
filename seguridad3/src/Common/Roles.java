@@ -11,6 +11,7 @@ package Common;
  */
 public class Roles {
     
+    
     /**
      * Rol para un usuario inactivo (sin permisos).
      * Es el equivalente a estar eliminado.

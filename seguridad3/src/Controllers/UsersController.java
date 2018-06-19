@@ -25,7 +25,7 @@ public class UsersController {
     public Users newUser(String ci, String password, String nombre, String apellido, int rol){
         try{
             if(UsersLogic.checkPasswordWithPwned(password)){
-                String passSHA1 = Utils.applySHA1(password);
+                String passSHA1 = Utils.applySHA256(password);
                 Integer.valueOf(ci);
                 
                 Users usuario = new Users(ci, passSHA1, nombre, apellido, rol, false);
@@ -56,7 +56,7 @@ public class UsersController {
         Users usuarioEncontrado = ujc.findUsers(email);
         if(usuarioEncontrado!=null){
             try{
-                String passSHA1 = Utils.applySHA1(password);
+                String passSHA1 = Utils.applySHA256(password);
                 if(passSHA1.equals(usuarioEncontrado.getPassword())){
                     return usuarioEncontrado;
                 }
@@ -70,10 +70,10 @@ public class UsersController {
     
     public boolean modificarContrasena(Users usuario, String nuevaContra, String contraActual) throws ContrasenaIncorrectaException{
         try{
-            String passSHA1 = Utils.applySHA1(contraActual);
+            String passSHA1 = Utils.applySHA256(contraActual);
             if(usuario.getPassword().equals(passSHA1)){
                 if(UsersLogic.checkPasswordWithPwned(nuevaContra)){
-                    String passNuevaSHA1 = Utils.applySHA1(nuevaContra);
+                    String passNuevaSHA1 = Utils.applySHA256(nuevaContra);
                     usuario.setPassword(passNuevaSHA1);
                     usuario.seCambioContra();
                     UsersJpaController ujc = new UsersJpaController();

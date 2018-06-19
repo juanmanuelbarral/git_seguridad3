@@ -162,10 +162,25 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void btnFirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirmarActionPerformed
           JFileChooser filechooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+          filechooser.setDialogTitle("Seleccione archivo a firmar");
           int return_value = filechooser.showOpenDialog(null);
           if(return_value == JFileChooser.APPROVE_OPTION){
               File selectedFile = filechooser.getSelectedFile();
               /**cifrar asimétricamente**/
+              JFileChooser filechooserkey = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+              filechooserkey.setDialogTitle("Seleccione PrivateKey");
+              int return_key_value = filechooserkey.showOpenDialog(null);
+              if(return_key_value == JFileChooser.APPROVE_OPTION){
+                File selectedKey = filechooserkey.getSelectedFile();
+                String nuevoNombre = JOptionPane.showInputDialog("Ingrese un nombre para su archivo firmado");   
+                if(CipherController.firmado(selectedFile, nuevoNombre,selectedKey)){
+                    JOptionPane.showMessageDialog(this, "Se logró firmar el archivo correctamente");   
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "No se logró firmar el archivo correctamente");   
+                    
+                }
+              }
           }
     }//GEN-LAST:event_btnFirmarActionPerformed
 
@@ -236,11 +251,26 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         if(claveNueva.equals(claveNueva2)){
             UsersController us = new UsersController();
             try{
+                boolean primerCambio = !usuario.getPrimeraContra();
                 boolean resultado = us.modificarContrasena(usuario, claveNueva, claveActual);
-                if(resultado){
-                    this.actualizar();
-                    JOptionPane.showMessageDialog(this, "Se modificó la contraseña con éxito");
+                if(primerCambio){
+                    if(CipherController.generarLlaves("src/Keys/"+usuario.getCi()) && resultado){
+                        this.actualizar();
+                        JOptionPane.showMessageDialog(this, "Se modificó la contraseña y se generaron las llaves con éxito ");
+                        
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(this, "Error al generar llaves ");
+                     
+                    }
                 }
+                else{
+                    if(resultado){
+                        JOptionPane.showMessageDialog(this, "Se modificó la contraseña con éxito ");
+                    }
+                }
+                
+                
             }
             catch(ContrasenaIncorrectaException e){
                 JOptionPane.showMessageDialog(this, "La contraseña actual ingresada no es correcta");

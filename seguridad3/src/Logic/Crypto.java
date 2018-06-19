@@ -5,17 +5,26 @@
  */
 package Logic;
 
+import Common.Utils;
+import Controllers.CipherController;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Signature;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -83,6 +92,97 @@ public class Crypto {
         } 
         return true;
     }
+    
+//    
+//Ver si sirve o se saca
+//    
+    public static boolean AsymmetricFileProcessor(int cipherMode, File key, File inputFile, File outputFile) {
+        try{
+            if(cipherMode == Cipher.ENCRYPT_MODE){
+                PrivateKey privKey = Crypto.getPrivate(key);
+                Cipher cipher = Cipher.getInstance("DSA");
+                cipher.init(Cipher.ENCRYPT_MODE, privKey);
+                Utils.writeToFile(inputFile.getAbsolutePath(), cipher.doFinal(Files.readAllBytes(outputFile.toPath())));
+      
+            }
+            else{
+                //Si se va a desencriptar
+                PublicKey pubKey = Crypto.getPublic(key);
+                Cipher cipher = Cipher.getInstance("DSA");
+                cipher.init(Cipher.DECRYPT_MODE, pubKey);
+                Utils.writeToFile(outputFile.getAbsolutePath(), cipher.doFinal(Files.readAllBytes(inputFile.toPath())));
+      
+            }
+            
+            return true;
+        } catch (NoSuchAlgorithmException ex) {
+            return false;
+        } catch (NoSuchPaddingException ex) {
+            return false;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+    
+    private static PrivateKey getPrivate(File file) throws Exception {
+        byte[] keyBytes = Files.readAllBytes(file.toPath());
+        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
+        KeyFactory kf = KeyFactory.getInstance("DSA");
+        return kf.generatePrivate(spec);
+    }
+    
+    
+    // https://docs.oracle.com/javase/8/docs/api/java/security/spec/X509EncodedKeySpec.html
+    public static PublicKey getPublic(File file) throws Exception {
+            byte[] keyBytes = Files.readAllBytes(file.toPath());
+            X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
+            KeyFactory kf = KeyFactory.getInstance("DSA");
+            return kf.generatePublic(spec);
+    }
+    
+    public static boolean firmar(File archivoAFirmar, File archivoFirmado, File privateKey){
+        try{
+            Signature dsa = Signature.getInstance("SHA1withDSA", "SUN"); 
+            PrivateKey priv = Crypto.getPrivate(privateKey);
+            dsa.initSign(priv);
+            
+            byte[] buf = new byte[(int)archivoAFirmar.length()];
+            FileInputStream fis = new FileInputStream(archivoAFirmar);
+            fis.read(buf);
+            dsa.update(buf);
+            /*BufferedInputStream bufin = new BufferedInputStream(fis);
+            byte[] buffer = new byte[1024];
+            int len;
+            while (bufin.available() != 0) {
+                len = bufin.read(buffer);
+                dsa.update(buffer, 0, len);
+            }
+ 
+            bufin.close();
+            */
+            fis.close();
+            
+            byte[] firma = dsa.sign();
+            
+            FileOutputStream sigfos = new FileOutputStream(archivoFirmado);
+            byte[] ultima = new byte[buf.length+firma.length+1];
+            byte[] largo = new byte[1];
+            largo[0] = (byte) firma.length;
+            
+            System.arraycopy(largo, 0, ultima, 0, largo.length);
+            System.arraycopy(firma, 0, ultima, 1, firma.length);
+            System.arraycopy(buf, 0, ultima, firma.length+1, buf.length);
+            
+            sigfos.write(ultima);
+            
+            sigfos.close();
+            return true;
+        
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+    
 
     /**
     public static void main(String[] args) {

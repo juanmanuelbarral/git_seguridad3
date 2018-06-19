@@ -5,6 +5,9 @@
  */
 package Common;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -25,13 +28,25 @@ public class Utils {
     }
     
   
-     public static String applySHA1(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+     public static String applySHA256(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException{
         byte[] passUTF8 = password.getBytes("UTF-8");
         //Se le aplica SHA1
-        MessageDigest messageD = MessageDigest.getInstance("SHA-1");
+        MessageDigest messageD = MessageDigest.getInstance("SHA-256");
         messageD.update(passUTF8);
         byte[] bytePassSHA1 = messageD.digest();
         String passSHA1 = Utils.byteArrayToString(bytePassSHA1);
         return passSHA1.toUpperCase();
+        
+        
     }
+     
+     public static void writeToFile(String path, byte[] key) throws IOException {
+		File f = new File(path);
+		f.getParentFile().mkdirs();
+
+		FileOutputStream fos = new FileOutputStream(f);
+		fos.write(key);
+		fos.flush();
+		fos.close();
+	}
 }
