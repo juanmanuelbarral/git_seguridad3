@@ -29,7 +29,7 @@ public class Roles {
     /**
      * Rol de usuario tipo 1.
      * Puede cifrar/descifrar archivos simétricamente.
-     * Puede firmar archivos.
+     * Puede firmar y verificar archivos.
      */
     public static int USUARIO_TIPO1 = 2;
     
