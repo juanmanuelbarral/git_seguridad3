@@ -115,6 +115,7 @@ public class UsersController {
     }
     
     public boolean generarClaves(Users usuario, String path){
+        if(usuario.getTieneClaves()) return false;
         try{
             usuario.setTieneClaves(true);
             boolean res = CipherController.generarLlaves(usuario,path);

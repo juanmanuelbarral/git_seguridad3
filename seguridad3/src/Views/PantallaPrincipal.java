@@ -47,7 +47,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         this.btnValidarFirma.setEnabled(PantallaPrincipalController.habilitarFirma(usuario) && usuario.getPrimeraContra());
         this.btnRegistrarUsuario.setEnabled(PantallaPrincipalController.habilitarRegistrar(usuario) && usuario.getPrimeraContra());
         this.btnModificarContra.setEnabled(true);
-        this.btnGenerarClaves.setEnabled(PantallaPrincipalController.habilitarGenerarLlaves(usuario));
+        this.btnGenerarClaves.setEnabled(PantallaPrincipalController.habilitarGenerarLlaves(usuario) && usuario.getPrimeraContra());
 
     }
     /**
