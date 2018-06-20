@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.PublicKey;
 import javax.crypto.Cipher;
 
 /**
@@ -29,6 +30,15 @@ public class CipherController {
         File archivoNuevo = new File(newPath);
         return archivoNuevo;
     }
+    
+    public static File getNuevoArchivo(File archivo){
+        String[] filePath = archivo.getAbsolutePath().split("\\.");
+        String newPath = filePath[0] + "_firma";  
+
+        File archivoNuevo = new File(newPath);
+        return archivoNuevo;
+    }
+    
     
     public static boolean cifradoSimetrico(File archivoACifrar, String password, String newName){
         File archivoEncriptado = getNuevoArchivo(archivoACifrar, newName);
@@ -53,9 +63,16 @@ public class CipherController {
             
     }
     
-    public static boolean firmado(File archivoAFirmar, String newName, File Key){
-        File archivoFirmado = getNuevoArchivo(archivoAFirmar,newName);
+    public static boolean firmado(File archivoAFirmar, File Key){
+        File archivoFirmado = getNuevoArchivo(archivoAFirmar);
         return Crypto.firmar(archivoAFirmar, archivoFirmado, Key);
+    }
+    
+    public static boolean verificar(File archivoAVerificar, File firma, String ci){
+        UsersController uc = new UsersController();
+        PublicKey pk = uc.getPublicKey(ci);
+        return Crypto.verificar(archivoAVerificar,firma, pk);
+        
     }
     
     public static boolean generarLlaves(Users usuario,String path){
@@ -64,7 +81,7 @@ public class CipherController {
                 gk = new GenerateKeys(1024);
                 gk.createKeys();
                 Utils.writeToFile(path + CipherController.getBarra() + "privateKey", gk.getPrivateKey().getEncoded());
-                usuario.setPublicKey(gk.getPublicKey().getEncoded().toString());
+                usuario.setPublicKey(gk.getPublicKey().getEncoded());
                 
                 return true;
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {

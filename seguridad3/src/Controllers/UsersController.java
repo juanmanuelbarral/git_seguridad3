@@ -7,8 +7,11 @@ package Controllers;
 
 import Common.Utils;
 import Controllers.exceptions.ContrasenaIncorrectaException;
+import Logic.Crypto;
 import Logic.UsersLogic;
 import Models.Users;
+import java.io.File;
+import java.security.PublicKey;
 
 /**
  *
@@ -92,6 +95,23 @@ public class UsersController {
             return false;
         }
         return false;
+    }
+    
+    public PublicKey getPublicKey(String ci){
+        UsersJpaController ujc = new UsersJpaController();
+        Users usuario = ujc.findUsers(ci);
+        if(!usuario.getTieneClaves()) return null;
+        byte[] publicByte = usuario.getPublicKey();
+        if (publicByte!=null){
+            try{
+                return Crypto.getPublic(publicByte);
+            }
+            catch(Exception e){
+                return null;
+            }
+        }
+        return null;
+        
     }
     
     public boolean generarClaves(Users usuario, String path){

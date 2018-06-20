@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -30,7 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Users.findByApellido", query = "SELECT u FROM Users u WHERE u.apellido = :apellido")
     , @NamedQuery(name = "Users.findByRol", query = "SELECT u FROM Users u WHERE u.rol = :rol")
     , @NamedQuery(name = "Users.findByPrimeraContra", query = "SELECT u FROM Users u WHERE u.primeraContra = :primeraContra")
-    , @NamedQuery(name = "Users.findByPublicKey", query = "SELECT u FROM Users u WHERE u.publicKey = :publicKey")
     , @NamedQuery(name = "Users.findByTieneClaves", query = "SELECT u FROM Users u WHERE u.tieneClaves = :tieneClaves")})
 public class Users implements Serializable {
 
@@ -54,8 +54,9 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(name = "primeraContra")
     private boolean primeraContra;
-    @Column(name = "PublicKey")
-    private String publicKey;
+    @Lob
+    @Column(name = "publicKey")
+    private byte[] publicKey;
     @Basic(optional = false)
     @Column(name = "tieneClaves")
     private boolean tieneClaves;
@@ -125,11 +126,11 @@ public class Users implements Serializable {
         this.primeraContra = primeraContra;
     }
 
-    public String getPublicKey() {
+    public byte[] getPublicKey() {
         return publicKey;
     }
 
-    public void setPublicKey(String publicKey) {
+    public void setPublicKey(byte[] publicKey) {
         this.publicKey = publicKey;
     }
 

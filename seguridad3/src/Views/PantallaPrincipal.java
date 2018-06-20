@@ -35,7 +35,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         this.usuario = usuario;
         initComponents();
         actualizar();
-       
     }
     private void actualizar(){
         ImageIcon imagen = new ImageIcon("src/Views/foto.png");
@@ -180,14 +179,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
           int return_value = filechooser.showOpenDialog(null);
           if(return_value == JFileChooser.APPROVE_OPTION){
               File selectedFile = filechooser.getSelectedFile();
-              /**cifrar asimétricamente**/
+              
               JFileChooser filechooserkey = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
               filechooserkey.setDialogTitle("Seleccione PrivateKey");
               int return_key_value = filechooserkey.showOpenDialog(null);
               if(return_key_value == JFileChooser.APPROVE_OPTION){
                 File selectedKey = filechooserkey.getSelectedFile();
-                String nuevoNombre = JOptionPane.showInputDialog("Ingrese un nombre para su archivo firmado");   
-                if(CipherController.firmado(selectedFile, nuevoNombre,selectedKey)){
+                if(CipherController.firmado(selectedFile,selectedKey)){
                     JOptionPane.showMessageDialog(this, "Se logró firmar el archivo correctamente");   
                 }
                 else{
@@ -249,11 +247,27 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDescifradoSimetricoActionPerformed
 
     private void btnValidarFirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarFirmaActionPerformed
+        
         JFileChooser filechooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        filechooser.setDialogTitle("Seleccione archivo a verificar");
          int return_value = filechooser.showOpenDialog(null);
          if(return_value == JFileChooser.APPROVE_OPTION){
              File selectedFile = filechooser.getSelectedFile();
-             /**descifrar asimétricamente**/
+             JFileChooser filechooserfirma = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            filechooserfirma.setDialogTitle("Seleccione firma del archivo");
+            int return_value_firma = filechooserfirma.showOpenDialog(null);
+            if(return_value_firma == JFileChooser.APPROVE_OPTION){
+                File selectedFileFirma = filechooserfirma.getSelectedFile();
+                String ci = JOptionPane.showInputDialog("Ingrese ci del autor");
+                if(CipherController.verificar(selectedFile, selectedFileFirma, ci)){
+                    
+                    JOptionPane.showMessageDialog(this, "La firma es válida");
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "La firma no es válida");
+                }
+            }
+             
          }
     }//GEN-LAST:event_btnValidarFirmaActionPerformed
 
@@ -299,9 +313,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-            String path = chooser.getCurrentDirectory().getPath(); 
-            String path1 = chooser.getSelectedFile().getAbsolutePath();
-            uc.generarClaves(usuario, path1);
+            String path = chooser.getSelectedFile().getAbsolutePath();
+            if(uc.generarClaves(usuario, path)){
+                this.actualizar();
+                JOptionPane.showMessageDialog(this, "Se generaron sus claves con éxito, la private key se encuentra en la "
+                        + "carpeta especificada y la public en nuestra base de datos");
+            }
         }
         
     }//GEN-LAST:event_btnGenerarClavesActionPerformed

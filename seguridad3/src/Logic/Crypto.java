@@ -140,9 +140,16 @@ public class Crypto {
             return kf.generatePublic(spec);
     }
     
-    public static boolean firmar(File archivoAFirmar, File archivoFirmado, File privateKey){
+    public static PublicKey getPublic(byte[] bytes)throws Exception{
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(bytes);
+        KeyFactory kf = KeyFactory.getInstance("DSA");
+        return kf.generatePublic(spec);
+    }
+    
+    
+    public static boolean firmar(File archivoAFirmar, File archivoFirma, File privateKey){
         try{
-            Signature dsa = Signature.getInstance("SHA1withDSA", "SUN"); 
+            Signature dsa = Signature.getInstance("SHA256withDSA", "SUN"); 
             PrivateKey priv = Crypto.getPrivate(privateKey);
             dsa.initSign(priv);
             
@@ -154,16 +161,20 @@ public class Crypto {
             
             byte[] firma = dsa.sign();
             
-            FileOutputStream sigfos = new FileOutputStream(archivoFirmado);
-            byte[] ultima = new byte[buf.length+firma.length+1];
-            byte[] largo = new byte[1];
-            largo[0] = (byte) firma.length;
+            //sigfos -> signature file output stream
+            FileOutputStream sigfos = new FileOutputStream(archivoFirma);
             
-            System.arraycopy(largo, 0, ultima, 0, largo.length);
-            System.arraycopy(firma, 0, ultima, 1, firma.length);
-            System.arraycopy(buf, 0, ultima, firma.length+1, buf.length);
+            /*byte[] salida = new byte[buf.length+firma.length+1];
+            byte[] largoFirma = new byte[1];
+            largoFirma[0] = (byte) firma.length;
             
-            sigfos.write(ultima);
+            System.arraycopy(largoFirma, 0, salida, 0, largoFirma.length);
+            System.arraycopy(firma, 0, salida, 1, firma.length);
+            System.arraycopy(buf, 0, salida, firma.length+1, buf.length);
+            */
+            
+            
+            sigfos.write(firma);
             
             sigfos.close();
             return true;
@@ -173,8 +184,62 @@ public class Crypto {
         }
     }
     
-    public static boolean validar(File archivoAFirmar ){
-        return true;
+    public static boolean verificar(File archivo, File firma, PublicKey publicKey) {
+        try {
+            byte[] bufArchivo = new byte[(int) archivo.length()];
+            byte[] bufFirma = new byte[(int) firma.length()];
+            
+            FileInputStream fisArchivo = new FileInputStream(archivo);
+            fisArchivo.read(bufArchivo);
+            fisArchivo.close();
+            
+            FileInputStream fisFirma = new FileInputStream(firma);
+            fisFirma.read(bufFirma);
+            fisFirma.close();
+            
+            Signature sig = Signature.getInstance("SHA256withDSA", "SUN");
+            sig.initVerify(publicKey);
+            
+            sig.update(bufArchivo, 0, bufArchivo.length);
+            
+            
+            return sig.verify(bufFirma);
+//            
+//            /* Obtengo todo el archivo : tiene largo (1 byte) , firma (n bytes dados por el largo) , archivo (todo el resto */
+//            byte[] buf = new byte[(int) archivo.length()];
+//            FileInputStream fis = new FileInputStream(archivo);
+//            fis.read(buf);
+//            fis.close();
+//            
+//            /* Veo el largo de la firma */
+//            byte[] largo = new byte[1];
+//            System.arraycopy(buf, 0, largo, 0, 1);
+//            int largoInt = (int)largo[0];
+//            
+//            //Obtengo la firma      
+//            byte[] firmaParaVerificar = new byte[largoInt];
+//            System.arraycopy(buf, 1, firmaParaVerificar,0 ,largoInt);
+//            
+//            /* Creo un objeto firma y lo inicializo con la public key */
+//            Signature sig = Signature.getInstance("SHA256withDSA", "SUN");
+//            sig.initVerify(publicKey);
+//            
+//            /* Hago un update al objeto firma con el arcvhio */
+//            byte[] archivoSolo = new byte[buf.length-(largoInt+1)];
+//            System.arraycopy(buf,1+largoInt,archivoSolo,0,archivoSolo.length);
+//            sig.update(archivoSolo, 0, archivoSolo.length);
+//Verifico/
+//            boolean verifies = sig.verify(firmaParaVerificar);
+// 
+//            System.out.println("signature verifies: " + verifies);       
+//
+//            return true;
+//            
+            
+        } catch (Exception e) {
+            return false;
+        }
+
     }
     
 
