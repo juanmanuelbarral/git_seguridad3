@@ -27,8 +27,12 @@
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <Component id="btnCIelectronica" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="165" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
                       <Component id="btnIniciarSesion" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="240" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -61,7 +65,9 @@
               </Group>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Component id="btnIniciarSesion" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="38" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="btnCIelectronica" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -94,6 +100,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordField1">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCIelectronica">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Loggearse con CI electronica"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCIelectronicaActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

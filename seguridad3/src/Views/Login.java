@@ -5,9 +5,22 @@
  */
 package Views;
 
+import CIelectronica.SmartcardTests;
 import Controllers.UsersController;
 import Models.Users;
 import java.awt.Color;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SignatureException;
+import java.security.cert.CertificateException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,6 +52,7 @@ public class Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
+        btnCIelectronica = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +69,13 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Contraseña:");
 
+        btnCIelectronica.setText("Loggearse con CI electronica");
+        btnCIelectronica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCIelectronicaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -63,8 +84,11 @@ public class Login extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCIelectronica)
+                        .addGap(0, 165, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnIniciarSesion)
-                        .addContainerGap(240, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -88,7 +112,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(btnIniciarSesion)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCIelectronica)
+                .addContainerGap())
         );
 
         pack();
@@ -111,6 +137,27 @@ public class Login extends javax.swing.JFrame {
             this.setVisible(false);
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
+
+    private void btnCIelectronicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCIelectronicaActionPerformed
+        String pin = JOptionPane.showInputDialog("Ingrese el PIN de su cédula");
+        
+        try {
+            String ci = SmartcardTests.autenticarConPin(pin);
+            Users usuario = uc.loginConCIVerificada(ci);
+            if(usuario!=null){
+                PantallaPrincipal sistema = new PantallaPrincipal(usuario);
+                sistema.setVisible(true);
+                this.setVisible(false);
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CertificateException | InvalidKeyException | NoSuchAlgorithmException | SignatureException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | NoSuchProviderException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnCIelectronicaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,6 +196,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCIelectronica;
     private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

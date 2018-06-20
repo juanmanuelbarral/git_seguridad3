@@ -54,15 +54,29 @@ public class UsersController {
         }
     }
     
-    public Users login(String email, String password){
+    public Users login(String ci, String password){
         UsersJpaController ujc = new UsersJpaController();
-        Users usuarioEncontrado = ujc.findUsers(email);
+        Users usuarioEncontrado = ujc.findUsers(ci);
         if(usuarioEncontrado!=null){
             try{
                 String passSHA1 = Utils.applySHA256(password);
                 if(passSHA1.equals(usuarioEncontrado.getPassword())){
                     return usuarioEncontrado;
                 }
+            }
+            catch(Exception e){
+                return null;
+            }
+        }
+        return null;
+    }
+    
+    public Users loginConCIVerificada(String ci){
+        UsersJpaController ujc = new UsersJpaController();
+        Users usuarioEncontrado = ujc.findUsers(ci);
+        if(usuarioEncontrado!=null){
+            try{
+                return usuarioEncontrado;
             }
             catch(Exception e){
                 return null;
