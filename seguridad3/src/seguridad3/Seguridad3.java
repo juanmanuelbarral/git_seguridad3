@@ -21,9 +21,9 @@ public class Seguridad3 {
     public static void main(String[] args){
         // TODO code application logic here
         UsersController uc = new UsersController();
-        Users usuario = uc.newUser("12345678", "clavesupersegura1357", "Administrador", "Lopez", 1);
+        Users usuario = uc.newUser("53007976", "clavesupersegura1357", "Manuel", "Barral", 1);
         try{
-            uc.modificarContrasena(usuario, "clavesupersegura1234", "clavesupersegura1357");
+            uc.modificarContrasena(usuario, "esmuyfacil1234", "clavesupersegura1357");
         } catch(Exception e){
             System.out.println("excepción");
         }
