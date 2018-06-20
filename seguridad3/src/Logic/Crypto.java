@@ -161,18 +161,8 @@ public class Crypto {
             
             byte[] firma = dsa.sign();
             
-            //sigfos -> signature file output stream
             FileOutputStream sigfos = new FileOutputStream(archivoFirma);
-            
-            /*byte[] salida = new byte[buf.length+firma.length+1];
-            byte[] largoFirma = new byte[1];
-            largoFirma[0] = (byte) firma.length;
-            
-            System.arraycopy(largoFirma, 0, salida, 0, largoFirma.length);
-            System.arraycopy(firma, 0, salida, 1, firma.length);
-            System.arraycopy(buf, 0, salida, firma.length+1, buf.length);
-            */
-            
+
             
             sigfos.write(firma);
             
@@ -204,37 +194,6 @@ public class Crypto {
             
             
             return sig.verify(bufFirma);
-//            
-//            /* Obtengo todo el archivo : tiene largo (1 byte) , firma (n bytes dados por el largo) , archivo (todo el resto */
-//            byte[] buf = new byte[(int) archivo.length()];
-//            FileInputStream fis = new FileInputStream(archivo);
-//            fis.read(buf);
-//            fis.close();
-//            
-//            /* Veo el largo de la firma */
-//            byte[] largo = new byte[1];
-//            System.arraycopy(buf, 0, largo, 0, 1);
-//            int largoInt = (int)largo[0];
-//            
-//            //Obtengo la firma      
-//            byte[] firmaParaVerificar = new byte[largoInt];
-//            System.arraycopy(buf, 1, firmaParaVerificar,0 ,largoInt);
-//            
-//            /* Creo un objeto firma y lo inicializo con la public key */
-//            Signature sig = Signature.getInstance("SHA256withDSA", "SUN");
-//            sig.initVerify(publicKey);
-//            
-//            /* Hago un update al objeto firma con el arcvhio */
-//            byte[] archivoSolo = new byte[buf.length-(largoInt+1)];
-//            System.arraycopy(buf,1+largoInt,archivoSolo,0,archivoSolo.length);
-//            sig.update(archivoSolo, 0, archivoSolo.length);
-//Verifico/
-//            boolean verifies = sig.verify(firmaParaVerificar);
-// 
-//            System.out.println("signature verifies: " + verifies);       
-//
-//            return true;
-//            
             
         } catch (Exception e) {
             return false;
@@ -242,23 +201,5 @@ public class Crypto {
 
     }
     
-
-    /**
-    public static void main(String[] args) {
-       String key = "This is a secret";
-       File inputFile = new File("text.txt");
-       File encryptedFile = new File("text.encrypted");
-       File decryptedFile = new File("decrypted-text.txt");
-
-       try {
-            Crypto.fileProcessor(Cipher.ENCRYPT_MODE,key,inputFile,encryptedFile);
-            Crypto.fileProcessor(Cipher.DECRYPT_MODE,key,encryptedFile,decryptedFile);
-            System.out.println("Sucess");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
-        }
-    }
-    */
 	
 }
