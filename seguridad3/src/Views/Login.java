@@ -7,6 +7,7 @@ package Views;
 
 import CIelectronica.SmartcardTests;
 import Controllers.UsersController;
+import Controllers.exceptions.PinIncorrectoException;
 import Models.Users;
 import java.awt.Color;
 import java.io.IOException;
@@ -135,6 +136,8 @@ public class Login extends javax.swing.JFrame {
             PantallaPrincipal sistema = new PantallaPrincipal(usuario);
             sistema.setVisible(true);
             this.setVisible(false);
+        } else{
+            JOptionPane.showMessageDialog(this, "Hubo un fallo en el login, verifique los datos ingresados");
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
@@ -150,12 +153,11 @@ public class Login extends javax.swing.JFrame {
                 this.setVisible(false);
             }
             
-        } catch (IOException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CertificateException | InvalidKeyException | NoSuchAlgorithmException | SignatureException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | NoSuchProviderException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch(PinIncorrectoException e){
+            JOptionPane.showMessageDialog(this, "Ingresó un PIN incorrecto! Tenga en cuenta que 4 fallos bloquea la CI");
+            
         } catch (Exception ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Hubo un problema con la CI o no existe un usuario registrado con esa identificación");
         }
     }//GEN-LAST:event_btnCIelectronicaActionPerformed
 
