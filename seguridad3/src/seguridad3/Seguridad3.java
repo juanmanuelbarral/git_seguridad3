@@ -5,6 +5,7 @@
  */
 package seguridad3;
 
+import Controllers.CipherController;
 import Controllers.UsersController;
 import Controllers.exceptions.ContrasenaIncorrectaException;
 import Models.Users;
@@ -20,13 +21,15 @@ public class Seguridad3 {
      */
     public static void main(String[] args){
         // TODO code application logic here
-        UsersController uc = new UsersController();
-        Users usuario = uc.newUser("53007976", "clavesupersegura1357", "Manuel", "Barral", 1);
-        try{
-            uc.modificarContrasena(usuario, "esmuyfacil1234", "clavesupersegura1357");
-        } catch(Exception e){
-            System.out.println("excepción");
-        }
+        String a = CipherController.getBarra();
+        System.out.println(a);
+//        UsersController uc = new UsersController();
+//        Users usuario = uc.newUser("53007976", "clavesupersegura1357", "Manuel", "Barral", 1);
+//        try{
+//            uc.modificarContrasena(usuario, "esmuyfacil1234", "clavesupersegura1357");
+//        } catch(Exception e){
+//            System.out.println("excepción");
+//        }
 
     }
     

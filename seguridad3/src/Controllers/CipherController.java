@@ -92,10 +92,13 @@ public class CipherController {
     }
     
     public static String getBarra(){
-        switch(System.getProperty("os.name")){
+        String sistema = System.getProperty("os.name");
+        switch(sistema){
             case "Linux": return "/";
+            case "Mac OS X" : return "/";
             case "Windows" : return "\\";
-            default: return "/";
+            case "Windows 8.1": return "\\";
+            default: return "\\";
         }
     }
     
