@@ -92,7 +92,7 @@ public class UsersController {
                 if(UsersLogic.checkPasswordWithPwned(nuevaContra)){
                     String passNuevaSHA1 = Utils.applySHA256(nuevaContra);
                     usuario.setPassword(passNuevaSHA1);
-                    usuario.seCambioContra();
+                    usuario.setPrimeraContra(true);
                     UsersJpaController ujc = new UsersJpaController();
                     ujc.edit(usuario);
                     return true;

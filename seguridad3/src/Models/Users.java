@@ -167,10 +167,4 @@ public class Users implements Serializable {
         return "Models.Users[ ci=" + ci + " ]";
     }
     
-    public void seCambioContra(){
-        if(this.getPrimeraContra()==false){
-            this.setPrimeraContra(true);
-        }
-    }
-    
 }
